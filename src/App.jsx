@@ -6,6 +6,7 @@ import iconRock from './assets/icon-rock.svg';
 import iconScissors from './assets/icon-scissors.svg';
 import { Option } from './components/Options';
 import { Header } from './components/Header';
+import Modal from './components/Modal';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,17 +20,9 @@ function App() {
         <Option image={iconScissors} type={'scissors'} />
         <Option image={iconRock} type={'rock'} />
       </div>
-      {/* <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className="flex justify-end self-end text-white">
+        <Modal />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p> */}
     </div>
   );
 }
