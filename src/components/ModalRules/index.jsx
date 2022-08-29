@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import imgRules from '../../assets/image-rules.svg';
 import imgClose from '../../assets/icon-close.svg';
 
-const Modal = () => {
+const ModalRules = () => {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
@@ -37,4 +37,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default ModalRules;
