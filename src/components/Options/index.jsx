@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Option({ image, type }) {
+export function Option({ image, type, handleSelecOption }) {
   const options = {
     paper: {
       bg: 'bg-paper',
@@ -25,6 +25,7 @@ export function Option({ image, type }) {
     >
       <span
         className={`rounded-full p-4 ${options[type].bg} shadow-shadow-out`}
+        onClick={() => handleSelecOption(type)}
       >
         <span
           className="w-[100px] h-[100px] bg-white rounded-full flex 
