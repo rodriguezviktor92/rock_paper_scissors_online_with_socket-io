@@ -18,42 +18,53 @@ const socket = io('http://localhost:4000');
 //const socket = io();
 
 function App() {
-  const [messages, setMessages] = useState([]);
   const [room, setRoom] = useState('');
   const [roomCreated, setRoomCreated] = useState(false);
   const [roomJoin, setRoomJoin] = useState(false);
   const [playerTwo, setPlayerTwo] = useState(false);
+  const [playerId, setPlayerId] = useState();
   const [choice, setChoice] = useState();
-
-  const playerTwoConnected = () => {
-    setPlayerTwo(true);
-  };
-
-  socket.on('player-2-connected', playerTwoConnected);
+  const [result, setResult] = useState();
 
   useEffect(() => {
     const roomCreated = (room) => {
       setRoomCreated(true);
       setRoomJoin(true);
+      setPlayerId(1);
       //socket.emit('join-room', room);
     };
 
     const roomJoin = (room) => {
       setRoomJoin(true);
+      console.log('join room')
     };
 
     socket.on('room-created', roomCreated);
 
     socket.on('room-joined', roomJoin);
 
+
+    const playerTwoConnected = () => {
+      setPlayerTwo(true);
+      console.log('player two connected')
+    };
+
+    socket.on('player-2-connected', playerTwoConnected);
+
+    const gameResult =(message)=>{
+      setResult({result:'draw',message:message})
+    }
+
+    socket.on('draw', gameResult);
     return () => {
       //socket.off('message', receiverMessage);
     };
-  }, [room]);
+  }, [socket]);
 
   const handleSelecOption = (choice) => {
     setChoice(choice);
-    socket.emit('make-move', [room, socket.id, choice]);
+    socket.emit('make-move', [room, playerId, choice]);
+    console.log(choice)
   };
 
   return (
@@ -73,6 +84,7 @@ function App() {
       ) : (
         <p>Player Two not yet connected</p>
       )}
+      {result && (<p>{result.message}</p>)}
       <div className="relative w-[313px] h-[278px] flex justify-center items-center justify-self-center">
         <img src={bgTriangle} className="max-w-[70%]" alt="triangle" />
         <Option
@@ -97,6 +109,7 @@ function App() {
           room={room}
           setRoom={setRoom}
           roomJoin={roomJoin}
+          setPlayerId={setPlayerId}
         />
         <ModalCreateRoom
           socket={socket}

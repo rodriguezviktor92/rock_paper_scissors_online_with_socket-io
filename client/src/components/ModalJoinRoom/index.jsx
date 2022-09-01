@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import imgClose from '../../assets/icon-close.svg';
 
-const ModaljoinRoom = ({ socket, room, setRoom, roomJoin }) => {
+const ModaljoinRoom = ({ socket, room, setRoom, roomJoin,setPlayerId }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setPlayerId(2);
     console.log(room);
     socket.emit('join-room', room);
     // setRoom('');

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import imgRules from '../../assets/image-rules.svg';
 import imgClose from '../../assets/icon-close.svg';
 
 const ModalCreateRoom = ({ socket, room, setRoom, roomCreated }) => {
