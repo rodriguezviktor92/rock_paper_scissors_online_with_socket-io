@@ -1,39 +1,34 @@
 import React from 'react';
 
-export function Option({ image, type, handleSelecOption }) {
+export function Option({ image, type, handleSelecOption, bigSize }) {
   const options = {
     paper: {
-      bg: 'bg-paper',
-      positionx: 'top-0',
-      positiony: 'justify-start',
+      bg: 'bg-paper'
     },
     rock: {
-      bg: 'bg-rock',
-      positionx: 'bottom-0',
-      positiony: 'justify-center',
+      bg: 'bg-rock'
     },
     scissors: {
-      bg: 'bg-scissors',
-      positionx: 'top-0',
-      positiony: 'justify-end',
+      bg: 'bg-scissors'
     },
+    empty:{
+      bg: 'bg-none'
+    }
   };
 
   return (
-    <div
-      className={`flex absolute w-full ${options[type].positionx} ${options[type].positiony}`}
-    >
+    
       <span
-        className={`rounded-full p-4 ${options[type].bg} shadow-shadow-out`}
-        onClick={() => handleSelecOption(type)}
+        className={`rounded-full p-4 ${options[type].bg} ${type !== 'empty' && 'shadow-shadow-out'} hover:scale-110`}
+        onClick={() => handleSelecOption && handleSelecOption(type)}
       >
         <span
-          className="w-[100px] h-[100px] bg-white rounded-full flex 
- justify-center items-center shadow-shadow-in"
+          className={`w-[100px] h-[100px] md:w-[150px] md:h-[150px] ${bigSize && 'sm:w-[200px] sm:h-[200px]'} ${type === 'empty' ? 'bg-empty' : 'bg-white'} rounded-full flex 
+ justify-center items-center ${type !== 'empty' && 'shadow-shadow-in'}`}
         >
-          <img src={image} />
+          {image && (<img src={image} />) }
         </span>
       </span>
-    </div>
+    
   );
 }
