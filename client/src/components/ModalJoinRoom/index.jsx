@@ -8,6 +8,7 @@ const ModaljoinRoom = ({ socket, room, setRoom, roomJoin,setPlayerId }) => {
     event.preventDefault();
     setPlayerId(2);
     console.log(room);
+    setShowModal(false)
     socket.emit('join-room', room);
     // setRoom('');
   };

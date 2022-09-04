@@ -10,6 +10,8 @@ import { Header } from './components/Header';
 import ModalRules from './components/ModalRules';
 import ModalCreateRoom from './components/ModalCreateRoom';
 import ModaljoinRoom from './components/ModalJoinRoom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //Local
 const socket = io('http://localhost:4000');
@@ -39,6 +41,8 @@ function App() {
   const [playerTwoChoice, setPlayerTwoChoice] = useState();
   const [result, setResult] = useState();
 
+  const notify = (message, type='success') => toast[type](message);
+
   useEffect(() => {
     const roomCreated = (room) => {
       setRoomCreated(true);
@@ -49,7 +53,6 @@ function App() {
 
     const roomJoin = (room) => {
       setRoomJoin(true);
-      console.log('join room')
     };
 
     socket.on('room-created', roomCreated);
@@ -59,14 +62,13 @@ function App() {
 
     const playerTwoConnected = () => {
       setPlayerTwo(true);
-      console.log('player two connected')
+      notify('Player two connected')
     };
 
     socket.on('player-2-connected', playerTwoConnected);
 
     const gameResult =(choice)=>{
       setPlayerTwoChoice(choice);
-      console.log(choice)
       setResult({result:'draw',message:`Both of you chose ${choice} . So its draw`})
     }
 
@@ -78,21 +80,21 @@ function App() {
 
   const handleSelecOption = (choice) => {
     if(!roomJoin){
-      console.log('Debes unirte a algun sala')
+      notify('Debes unirte o crear una sala','error')
       return
     }
 
     if(!playerTwo){
-      console.log('Aun el segundo jugar no se ha unido a la sala')
+      notify('Aun el segundo jugar no se ha unido a la sala','error')
       return
     }
     setYouChoice(choice);
     socket.emit('make-move', [room, playerId, choice]);
-    console.log(choice)
   };
 
   return (
     <div className="w-screen h-screen bg-gradient-to-r from-background to-background2 p-10 grid justify-center items-center grid-cols-options">
+      <ToastContainer />
       <Header />
       {roomJoin ? (
         <p>
@@ -166,12 +168,14 @@ function App() {
           setRoom={setRoom}
           roomJoin={roomJoin}
           setPlayerId={setPlayerId}
+          notify={notify}
         />
         <ModalCreateRoom
           socket={socket}
           room={room}
           setRoom={setRoom}
           roomCreated={roomCreated}
+          notify={notify}
         />
         <ModalRules />
       </div>

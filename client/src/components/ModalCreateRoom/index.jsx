@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import imgClose from '../../assets/icon-close.svg';
 
-const ModalCreateRoom = ({ socket, room, setRoom, roomCreated }) => {
+const ModalCreateRoom = ({ socket, room, setRoom, roomCreated,notify }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(room);
     socket.emit('create-room', room);
+    setShowModal(false)
+    notify(`Room ${room} created and joined`)
     // setRoom('');
   };
 
