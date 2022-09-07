@@ -1,13 +1,13 @@
 export const connectedUsers = {};
 export const choices = {};
-const moves = {
+export const moves = {
   'rock':'scissor',
   'paper':'rock',
   'scissor':'papper'
 }
 
 export const initializeChoices = (roomId)=>{
-  choices(roomId) = ['','']
+  choices[roomId] = ['','']
 }
 
 export const userConnected = (userId)=>{
