@@ -12,6 +12,7 @@ import ModalCreateRoom from './components/ModalCreateRoom';
 import ModaljoinRoom from './components/ModalJoinRoom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useCallback } from 'react';
 
 //Local
 const socket = io('http://localhost:4000');
@@ -27,7 +28,7 @@ function App() {
     rock: {
       img: iconRock
     },
-    scissors: {
+    scissor: {
       img: iconScissors
     },
   };
@@ -43,12 +44,29 @@ function App() {
 
   const notify = (message, type='success') => toast[type](message);
 
+  const gameResult = useCallback((gameResult)=>{
+  
+  if(playerId === 1) {
+    setPlayerTwoChoice(gameResult.player2);
+  }else{
+    setPlayerTwoChoice(gameResult.player1);
+  }
+
+  setResult({result:gameResult.result, message:gameResult.message})
+  }, [playerId]);
+
+  useEffect(()=>{
+    socket.on('draw', gameResult);
+    socket.on('player-1-wins', gameResult);
+  },[gameResult])
+
   useEffect(() => {
     const roomCreated = (room) => {
       setRoomCreated(true);
       setRoomJoin(true);
       setPlayerId(1);
-      //socket.emit('join-room', room);
+      
+      console.log(playerId)
     };
 
     const roomJoin = (room) => {
@@ -56,9 +74,7 @@ function App() {
     };
 
     socket.on('room-created', roomCreated);
-
     socket.on('room-joined', roomJoin);
-
 
     const playerTwoConnected = () => {
       setPlayerTwo(true);
@@ -66,17 +82,11 @@ function App() {
     };
 
     socket.on('player-2-connected', playerTwoConnected);
-
-    const gameResult =(choice)=>{
-      setPlayerTwoChoice(choice);
-      setResult({result:'draw',message:`Both of you chose ${choice} . So its draw`})
-    }
-
-    socket.on('draw', gameResult);
+ 
     return () => {
-      //socket.off('message', receiverMessage);
+      socket.off('message');
     };
-  }, [socket]);
+  }, []);
 
   const handleSelecOption = (choice) => {
     if(!roomJoin){
@@ -89,6 +99,7 @@ function App() {
       return
     }
     setYouChoice(choice);
+    
     socket.emit('make-move', [room, playerId, choice]);
   };
 
@@ -148,7 +159,7 @@ function App() {
         <div className={`flex justify-self-center`}>
           <Option
             image={iconScissors}
-            type={'scissors'}
+            type={'scissor'}
             handleSelecOption={handleSelecOption}
           />
         </div>

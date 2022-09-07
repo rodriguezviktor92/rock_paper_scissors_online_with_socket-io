@@ -8,7 +8,7 @@ export function Option({ image, type, handleSelecOption, bigSize }) {
     rock: {
       bg: 'bg-rock'
     },
-    scissors: {
+    scissor: {
       bg: 'bg-scissors'
     },
     empty:{
