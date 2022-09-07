@@ -1,6 +1,7 @@
+import React from 'react';
 import imgLogo from '../../assets/logo.svg';
 
-export function Header() {
+function Header() {
   return (
     <div className="border-2 rounded-lg p-4 flex justify-between items-center">
       <div>
@@ -13,3 +14,5 @@ export function Header() {
     </div>
   );
 }
+
+export default Header;

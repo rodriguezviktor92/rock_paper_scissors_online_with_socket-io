@@ -1,34 +1,43 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 
-export function Option({ image, type, handleSelecOption, bigSize }) {
+function Option({
+  image,
+  type,
+  handleSelecOption,
+  bigSize,
+}) {
   const options = {
     paper: {
-      bg: 'bg-paper'
+      bg: 'bg-paper',
     },
     rock: {
-      bg: 'bg-rock'
+      bg: 'bg-rock',
     },
     scissor: {
-      bg: 'bg-scissors'
+      bg: 'bg-scissors',
     },
-    empty:{
-      bg: 'bg-none'
-    }
+    empty: {
+      bg: 'bg-none',
+    },
   };
 
   return (
-    
+    <span
+      role="button"
+      onKeyPress={() => handleSelecOption && handleSelecOption(type)}
+      tabIndex="0"
+      className={`rounded-full p-4 ${options[type].bg} ${type !== 'empty' && 'shadow-shadow-out'} hover:scale-110`}
+      onClick={() => handleSelecOption && handleSelecOption(type)}
+    >
       <span
-        className={`rounded-full p-4 ${options[type].bg} ${type !== 'empty' && 'shadow-shadow-out'} hover:scale-110`}
-        onClick={() => handleSelecOption && handleSelecOption(type)}
+        className={`w-[100px] h-[100px] md:w-[150px] md:h-[150px] ${bigSize && 'sm:w-[200px] sm:h-[200px]'} ${type === 'empty' ? 'bg-empty' : 'bg-white'} rounded-full flex 
+justify-center items-center ${type !== 'empty' && 'shadow-shadow-in'}`}
       >
-        <span
-          className={`w-[100px] h-[100px] md:w-[150px] md:h-[150px] ${bigSize && 'sm:w-[200px] sm:h-[200px]'} ${type === 'empty' ? 'bg-empty' : 'bg-white'} rounded-full flex 
- justify-center items-center ${type !== 'empty' && 'shadow-shadow-in'}`}
-        >
-          {image && (<img src={image} />) }
-        </span>
+        {image && (<img src={image} alt={type} />) }
       </span>
-    
+    </span>
   );
 }
+
+export default Option;
