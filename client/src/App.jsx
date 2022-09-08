@@ -60,6 +60,7 @@ function App() {
   useEffect(() => {
     socket.on('draw', handleGameResult);
     socket.on('player-1-wins', handleGameResult);
+    socket.on('player-2-wins', handleGameResult);
   }, [handleGameResult]);
 
   useEffect(() => {
