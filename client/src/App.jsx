@@ -128,15 +128,17 @@ function App() {
       {result && (<p>{result.message}</p>)}
 
       {youChoice ? (
-        <div className="relative w-[313px] md:w-[520px] h-[278px] flex justify-center items-center justify-self-center">
-          <div className="flex  w-full top-0 justify-center">
+        <div className="relative w-[313px] md:w-[520px] h-[278px] flex justify-center items-center justify-self-center text-white font-barlow font-semibold text-xl tracking-wider">
+          <div className="grid w-full top-0 justify-center">
+            <p className="justify-self-center pb-12">YOU PICKED</p>
             <Option
               image={options[youChoice].img}
               type={youChoice}
               bigSize
             />
           </div>
-          <div className="flex  w-full top-0 justify-center">
+          <div className="grid  w-full top-0 justify-center">
+            <p className="justify-self-center pb-12">ENEMY PICKED</p>
             {playerTwoChoice ? (
               <Option
                 image={options[playerTwoChoice].img}
