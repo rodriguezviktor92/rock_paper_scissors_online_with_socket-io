@@ -54,7 +54,7 @@ function App() {
       setPlayerTwoChoice(gameResult.player1);
     }
 
-    setResult({ result: gameResult.result, message: gameResult.message });
+    setResult({ win: gameResult.win });
   }, [playerId]);
 
   useEffect(() => {
@@ -77,15 +77,15 @@ function App() {
     socket.on('room-created', handleRoomCreated);
     socket.on('room-joined', handleRoomJoin);
 
-    const handleRlayerTwoConnected = () => {
+    const handlePlayerTwoConnected = () => {
       setPlayerTwo(true);
       notify('Player two connected');
     };
 
-    socket.on('player-2-connected', handleRlayerTwoConnected);
+    socket.on('player-2-connected', handlePlayerTwoConnected);
 
     return () => {
-      socket.off('message');
+      socket.off();
     };
   }, []);
 
@@ -125,7 +125,6 @@ function App() {
       ) : (
         <p>Player Two not yet connected</p>
       )}
-      {result && (<p>{result.message}</p>)}
 
       {youChoice ? (
         <div className="relative w-[313px] md:w-[520px] h-[278px] flex justify-center items-center justify-self-center text-white font-barlow font-semibold text-xl tracking-wider">
@@ -137,6 +136,12 @@ function App() {
               bigSize
             />
           </div>
+          {result?.win && (
+            <div className={`${youChoice && playerTwoChoice ? 'grid' : 'none'} w-full top-0 justify-center`}>
+              <p className="justify-self-center pb-12">{playerId === result.win ? 'YOU WIN' : 'YOU LOSE'}</p>
+              <button type="button" className="border-2 font-barlow rounded-md w-28">PLAY AGAIN</button>
+            </div>
+          )}
           <div className="grid  w-full top-0 justify-center">
             <p className="justify-self-center pb-12">ENEMY PICKED</p>
             {playerTwoChoice ? (
