@@ -11,7 +11,7 @@ import iconPaper from './assets/icon-paper.svg';
 import iconRock from './assets/icon-rock.svg';
 import iconScissors from './assets/icon-scissors.svg';
 import Option from './components/Options';
-import Header from './components/Header';
+import Score from './components/Score';
 import ModalRules from './components/ModalRules';
 import ModalCreateRoom from './components/ModalCreateRoom';
 import ModaljoinRoom from './components/ModalJoinRoom';
@@ -28,11 +28,11 @@ function App() {
     paper: {
       img: iconPaper,
     },
-    rock: {
-      img: iconRock,
-    },
     scissor: {
       img: iconScissors,
+    },
+    rock: {
+      img: iconRock,
     },
   };
 
@@ -105,30 +105,32 @@ function App() {
   };
 
   return (
-    <div className="w-screen h-screen bg-gradient-to-r from-background to-background2 p-10 grid justify-center items-center grid-cols-options">
+    <section id="main" className="w-screen h-screen bg-gradient-to-r from-background to-background2 p-10 grid justify-center items-center grid-cols-options">
       <ToastContainer />
-      <Header />
-      {roomJoin ? (
-        <p>
-          You joined the
-          <b>{room}</b>
-          room select your option
-        </p>
-      ) : (
-        <p>You are not join to any room</p>
-      )}
-      {roomJoin && playerTwo ? (
-        <p>
-          Player Two connected:
-          <b>Select you Option</b>
-        </p>
-      ) : (
-        <p>Player Two not yet connected</p>
-      )}
+      <Score />
+      <section id="information">
+        {roomJoin ? (
+          <p>
+            You joined the
+            <b>{room}</b>
+            room select your option
+          </p>
+        ) : (
+          <p>You are not join to any room</p>
+        )}
+        {roomJoin && playerTwo ? (
+          <p>
+            Player Two connected:
+            <b>Select you Option</b>
+          </p>
+        ) : (
+          <p>Player Two not yet connected</p>
+        )}
+      </section>
 
       {youChoice ? (
-        <div className="relative w-[313px] md:w-[520px] h-[278px] flex justify-center items-center justify-self-center text-white font-barlow font-semibold text-xl tracking-wider">
-          <div className="grid w-full top-0 justify-center">
+        <section id="choice" className="relative w-[313px] md:w-[520px] h-[278px] flex justify-center items-center justify-self-center text-white font-barlow font-semibold text-xl tracking-wider">
+          <div className="text-center">
             <p className="justify-self-center pb-12">YOU PICKED</p>
             <Option
               image={options[youChoice].img}
@@ -142,7 +144,7 @@ function App() {
               <button type="button" className="border-2 font-barlow rounded-md w-28">PLAY AGAIN</button>
             </div>
           )}
-          <div className="grid  w-full top-0 justify-center">
+          <div className="text-center">
             <p className="justify-self-center pb-12">ENEMY PICKED</p>
             {playerTwoChoice ? (
               <Option
@@ -157,33 +159,22 @@ function App() {
               />
             )}
           </div>
-        </div>
+        </section>
       ) : (
-        <div className="relative w-[313px] h-[278px] md:w-[513px] md:h-[400px] grid justify-center items-center justify-self-center grid-cols-2 grid-rows-2 bg-triangle bg-no-repeat bg-center bg-triangle md:bg-auto">
-          <div className="flex justify-self-center">
-            <Option
-              image={iconPaper}
-              type="paper"
-              handleSelecOption={handleSelecOption}
-            />
-          </div>
-          <div className="flex justify-self-center">
-            <Option
-              image={iconScissors}
-              type="scissor"
-              handleSelecOption={handleSelecOption}
-            />
-          </div>
-          <div className="flex absolute w-full bottom-0 justify-center">
-            <Option
-              image={iconRock}
-              type="rock"
-              handleSelecOption={handleSelecOption}
-            />
-          </div>
-        </div>
+        <section id="choices" className="relative w-[313px] h-[278px] md:w-[513px] md:h-[400px] grid justify-center items-center justify-self-center grid-cols-2 grid-rows-2 bg-triangle bg-no-repeat bg-center bg-triangle md:bg-auto">
+          {
+            Object.entries(options).map(([key, value]) => (
+              <Option
+                key={key}
+                image={value.img}
+                type={key}
+                handleSelecOption={handleSelecOption}
+              />
+            ))
+          }
+        </section>
       )}
-      <div className="flex justify-end self-end text-white">
+      <section className="flex justify-end self-end text-white">
         <ModaljoinRoom
           socket={socket}
           room={room}
@@ -200,8 +191,8 @@ function App() {
           notify={notify}
         />
         <ModalRules />
-      </div>
-    </div>
+      </section>
+    </section>
   );
 }
 

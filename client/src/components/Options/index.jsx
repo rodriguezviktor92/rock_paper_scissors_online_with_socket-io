@@ -23,11 +23,11 @@ function Option({
   };
 
   return (
-    <span
-      role="button"
+    <button
+      type="button"
       onKeyPress={() => handleSelecOption && handleSelecOption(type)}
       tabIndex="0"
-      className={`rounded-full p-4 ${options[type].bg} ${type !== 'empty' && 'shadow-shadow-out'} hover:scale-110`}
+      className={`rounded-full p-4 ${options[type].bg} ${type !== 'empty' && 'shadow-shadow-out'} hover:scale-110 justify-self-center ${type === 'rock' && 'col-span-2'}`}
       onClick={() => handleSelecOption && handleSelecOption(type)}
     >
       <span
@@ -36,7 +36,7 @@ justify-center items-center ${type !== 'empty' && 'shadow-shadow-in'}`}
       >
         {image && (<img src={image} alt={type} />) }
       </span>
-    </span>
+    </button>
   );
 }
 
