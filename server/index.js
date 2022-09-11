@@ -114,16 +114,17 @@ io.on('connection', (socket) => {
       let playerOneChoice = choices[roomId][0];
       let playerTwoChoice = choices[roomId][1];
 
+      const result = { win: 0, player1:playerOneChoice, player2:playerTwoChoice };
+
       if (playerOneChoice === playerTwoChoice) {
         //let message = 'Both of you chose' + playerOneChoice + ' . So its draw';
-        io.to(roomId).emit('draw',{ result: 'draw', choice: mychoice, message:`Both of you chose ${mychoice} . So its draw`});
+        io.to(roomId).emit('draw',result);
       } else if (moves[playerOneChoice] === playerTwoChoice) {       
-        const result = { win: 1, player1:playerOneChoice, player2:playerTwoChoice };
-     
+        result.win = 1;
         choices[rooms] = ['', ''];
         io.to(roomId).emit('player-1-wins', result);
       } else {
-        const result = { win: 2, player1:playerOneChoice, player2:playerTwoChoice };
+        result.win = 2;
 
         choices[rooms] = ['', ''];
         io.to(roomId).emit('player-2-wins', result);
