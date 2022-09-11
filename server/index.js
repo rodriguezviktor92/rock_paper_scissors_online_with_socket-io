@@ -117,33 +117,16 @@ io.on('connection', (socket) => {
       if (playerOneChoice === playerTwoChoice) {
         //let message = 'Both of you chose' + playerOneChoice + ' . So its draw';
         io.to(roomId).emit('draw',{ result: 'draw', choice: mychoice, message:`Both of you chose ${mychoice} . So its draw`});
-      } else if (moves[playerOneChoice] === playerTwoChoice) {
-        //let enemyChoice = '';
-        
-        const result = { result: 'player-1-wins', player1:playerOneChoice, player2:playerTwoChoice, message:`Player 1 wins ${mychoice} . So its draw`};
-
-        // if (playerId === 1) {
-        //   result.player1 = mychoice;
-        //   result.player2 = playerTwoChoice;
-        // } else {
-        //   result.player1 = playerTwoChoice;
-        //   result.player2 = mychoice;
-        // }
-
+      } else if (moves[playerOneChoice] === playerTwoChoice) {       
+        const result = { win: 1, player1:playerOneChoice, player2:playerTwoChoice };
+     
         choices[rooms] = ['', ''];
-        console.log('player 1 win')
         io.to(roomId).emit('player-1-wins', result);
       } else {
-        let enemyChoice = '';
-
-        if (playerId === 1) {
-          enemyChoice = playerTwoChoice;
-        } else {
-          enemyChoice = playerOneChoice;
-        }
+        const result = { win: 2, player1:playerOneChoice, player2:playerTwoChoice };
 
         choices[rooms] = ['', ''];
-        io.to(roomId).emit('player-2-wins', { mychoice, enemyChoice });
+        io.to(roomId).emit('player-2-wins', result);
       }
     }
   });
