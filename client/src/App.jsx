@@ -48,13 +48,21 @@ function App() {
   const notify = (message, type = 'success') => toast[type](message);
 
   const handleGameResult = useCallback((gameResult) => {
-    if (playerId === 1) {
-      setPlayerTwoChoice(gameResult.player2);
-    } else {
-      setPlayerTwoChoice(gameResult.player1);
+    const playerTwoResult = playerId === 1 ? gameResult.player2 : gameResult.player1;
+
+    setPlayerTwoChoice(playerTwoResult);
+
+    if (gameResult.win === 0) {
+      setResult('Draw');
+      return;
     }
 
-    setResult({ win: gameResult.win });
+    if (playerId !== gameResult.win) {
+      setResult('YOU LOSE');
+      return;
+    }
+
+    setResult('YOU WIN');
   }, [playerId]);
 
   useEffect(() => {
@@ -138,9 +146,9 @@ function App() {
               bigSize
             />
           </div>
-          {result?.win && (
+          {result && (
             <div className={`${youChoice && playerTwoChoice ? 'grid' : 'none'} w-full top-0 justify-center`}>
-              <p className="justify-self-center pb-12">{playerId === result.win ? 'YOU WIN' : 'YOU LOSE'}</p>
+              <p className="justify-self-center pb-12">{result}</p>
               <button type="button" className="border-2 font-barlow rounded-md w-28">PLAY AGAIN</button>
             </div>
           )}
