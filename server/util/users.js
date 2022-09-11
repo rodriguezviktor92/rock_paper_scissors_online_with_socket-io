@@ -3,7 +3,7 @@ export const choices = {};
 export const moves = {
   'rock':'scissor',
   'paper':'rock',
-  'scissor':'papper'
+  'scissor':'paper'
 }
 
 export const initializeChoices = (roomId)=>{
