@@ -110,9 +110,9 @@ io.on('connection', (socket) => {
     makeMove(roomId, playerId, mychoice);
     console.log('room: ', roomId, 'player: ', playerId, 'choice: ', mychoice);
 
-    if (choices[roomId][0] !== '' && choices[roomId][1] !== '') {
-      let playerOneChoice = choices[roomId][0];
-      let playerTwoChoice = choices[roomId][1];
+    if (choices[roomId].choices[0] !== '' && choices[roomId].choices[1] !== '') {
+      let playerOneChoice = choices[roomId].choices[0];
+      let playerTwoChoice = choices[roomId].choices[1];
 
       const result = { win: 0, player1:playerOneChoice, player2:playerTwoChoice };
 
@@ -121,15 +121,21 @@ io.on('connection', (socket) => {
         io.to(roomId).emit('draw',result);
       } else if (moves[playerOneChoice] === playerTwoChoice) {       
         result.win = 1;
-        choices[rooms] = ['', ''];
+        choices[roomId].choices = ['', ''];
         io.to(roomId).emit('player-1-wins', result);
       } else {
         result.win = 2;
 
-        choices[rooms] = ['', ''];
+        choices[roomId].choices = ['', ''];
         io.to(roomId).emit('player-2-wins', result);
       }
     }
+  });
+
+  socket.on('reset-game', (roomId, playerId) => {
+    choices[roomId].choices[playerId - 1] === true;
+
+    if(choices[roomId].choices[0] && choices[roomId].choices[1]) initializeChoices(roomId);
   });
 
   socket.on('disconnect', () => {

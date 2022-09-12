@@ -112,6 +112,13 @@ function App() {
     socket.emit('make-move', [room, playerId, choice]);
   };
 
+  const handleResetGame = () => {
+    setYouChoice('');
+    setPlayerTwoChoice('');
+    setResult('');
+    socket.emit('reset-game', room, playerId);
+  };
+
   return (
     <section id="main" className="w-screen h-screen bg-gradient-to-r from-background to-background2 p-10 grid justify-center items-center grid-cols-options">
       <ToastContainer />
@@ -149,7 +156,7 @@ function App() {
           {result && (
             <div className={`${youChoice && playerTwoChoice ? 'grid' : 'none'} w-full top-0 justify-center`}>
               <p className="justify-self-center pb-12">{result}</p>
-              <button type="button" className="border-2 font-barlow rounded-md w-28">PLAY AGAIN</button>
+              <button type="button" className="border-2 font-barlow rounded-md w-28" onClick={handleResetGame}>PLAY AGAIN</button>
             </div>
           )}
           <div className="text-center">

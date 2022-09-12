@@ -7,7 +7,7 @@ export const moves = {
 }
 
 export const initializeChoices = (roomId)=>{
-  choices[roomId] = ['','']
+  choices[roomId] = {choices: ['',''] };
 }
 
 export const userConnected = (userId)=>{
@@ -15,7 +15,7 @@ export const userConnected = (userId)=>{
 }
 
 export const makeMove = (roomId, player, choice)=>{
-  if(choices[roomId]){
-    choices[roomId][player - 1] = choice;
+  if(choices[roomId].choices){
+    choices[roomId].choices[player - 1] = choice;
   }
 }
