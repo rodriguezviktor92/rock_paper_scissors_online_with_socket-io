@@ -47,6 +47,7 @@ function ModaljoinRoom({
                   type="text"
                   onChange={(event) => setRoom(event.target.value)}
                   value={room}
+                  className="rounded border border-black"
                 />
                 <button type="submit">Join</button>
                 {roomJoin && <p>Join Room</p>}

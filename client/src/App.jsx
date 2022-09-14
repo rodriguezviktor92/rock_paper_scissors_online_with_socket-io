@@ -79,6 +79,7 @@ function App() {
       setRoomCreated(true);
       setRoomJoin(true);
       setPlayerId(1);
+      notify(`Room ${room} created and joined`);
     };
 
     const handleRoomJoin = () => {

@@ -7,7 +7,6 @@ function ModalCreateRoom({
   room,
   setRoom,
   roomCreated,
-  notify,
 }) {
   const [showModal, setShowModal] = useState(false);
 
@@ -15,8 +14,6 @@ function ModalCreateRoom({
     event.preventDefault();
     socket.emit('create-room', room);
     setShowModal(false);
-    notify(`Room ${room} created and joined`);
-    // setRoom('');
   };
 
   return (
@@ -47,6 +44,7 @@ function ModalCreateRoom({
                   type="text"
                   onChange={(event) => setRoom(event.target.value)}
                   value={room}
+                  className="rounded border border-black"
                 />
                 <button type="submit">Create</button>
                 {roomCreated && <p>Room Created</p>}
