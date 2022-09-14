@@ -11,7 +11,7 @@ import iconPaper from './assets/icon-paper.svg';
 import iconRock from './assets/icon-rock.svg';
 import iconScissors from './assets/icon-scissors.svg';
 import Option from './components/Options';
-import Score from './components/Score';
+import Scoreboard from './components/Scoreboard';
 import ModalRules from './components/ModalRules';
 import ModalCreateRoom from './components/ModalCreateRoom';
 import ModaljoinRoom from './components/ModalJoinRoom';
@@ -44,6 +44,7 @@ function App() {
   const [youChoice, setYouChoice] = useState();
   const [playerTwoChoice, setPlayerTwoChoice] = useState();
   const [result, setResult] = useState();
+  const [scores, setScore] = useState({ you: 0, enemy: 0 });
 
   const notify = (message, type = 'success') => toast[type](message);
 
@@ -59,11 +60,13 @@ function App() {
 
     if (playerId !== gameResult.win) {
       setResult('YOU LOSE');
+      setScore({ ...scores, enemy: scores.enemy + 1 });
       return;
     }
 
     setResult('YOU WIN');
-  }, [playerId]);
+    setScore({ ...scores, you: scores.you + 1 });
+  }, [playerId, scores]);
 
   useEffect(() => {
     socket.on('draw', handleGameResult);
@@ -122,7 +125,7 @@ function App() {
   return (
     <section id="main" className="w-screen h-screen bg-gradient-to-r from-background to-background2 p-10 grid justify-center items-center grid-cols-options">
       <ToastContainer />
-      <Score />
+      <Scoreboard scores={scores} />
       <section id="information">
         {roomJoin ? (
           <p>
