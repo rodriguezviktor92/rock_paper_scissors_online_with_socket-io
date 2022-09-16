@@ -69,10 +69,17 @@ function App() {
   }, [playerId, scores]);
 
   useEffect(() => {
+    // Evaluar para usar 1 solo canal
     socket.on('draw', handleGameResult);
     socket.on('player-1-wins', handleGameResult);
     socket.on('player-2-wins', handleGameResult);
   }, [handleGameResult]);
+
+  const handleDisconnect = useCallback((player) => {
+    if (player !== playerId) {
+      notify(`Player ${player} Disconnect`);
+    }
+  }, [playerId]);
 
   useEffect(() => {
     const handleRoomCreated = () => {
@@ -101,6 +108,8 @@ function App() {
     };
 
     socket.on('display-error', handleErrorConnected);
+
+    socket.on('disconnected', handleDisconnect);
 
     return () => {
       socket.off();

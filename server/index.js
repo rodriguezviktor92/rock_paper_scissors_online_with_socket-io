@@ -155,13 +155,8 @@ io.on('connection', (socket) => {
         }
       }
       exitRoom(roomId, player);
-      if (player === 1) {
-        io.to(roomId).emit('Player-1-disconnected');
-        console.log('room: ',roomId,'player: ',player, 'Disconnected')
-      } else {
-        io.to(roomId).emit('Player-2-disconnected');
-        console.log('room: ',roomId,'player: ',player, 'Disconnected')
-      }
+
+      io.to(roomId).emit('disconnected',player);
     }
   });
 });
