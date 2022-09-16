@@ -96,6 +96,12 @@ function App() {
 
     socket.on('player-2-connected', handlePlayerTwoConnected);
 
+    const handleErrorConnected = (error) => {
+      notify(error, 'error');
+    };
+
+    socket.on('display-error', handleErrorConnected);
+
     return () => {
       socket.off();
     };

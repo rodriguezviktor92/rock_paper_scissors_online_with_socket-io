@@ -59,7 +59,7 @@ io.on('connection', (socket) => {
   socket.on('create-room', (roomId) => {
     if (rooms[roomId]) {
       const error = 'This room alredy exists';
-      socket.exit('display-error', error);
+      socket.emit('display-error', error);
     } else {
       userConnected(socket.id);
       createRoom(roomId, socket.id);
@@ -74,7 +74,7 @@ io.on('connection', (socket) => {
   socket.on('join-room', (roomId) => {
     if (!rooms[roomId]) {
       const error = 'This room doent exists';
-      socket.exit('display-error', error);
+      socket.emit('display-error', error);
     } else {
       userConnected(socket.id);
       joinRoom(roomId, socket.id);
