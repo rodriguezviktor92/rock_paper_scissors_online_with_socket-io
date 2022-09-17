@@ -17,7 +17,7 @@ import ModalCreateRoom from './components/ModalCreateRoom';
 import ModaljoinRoom from './components/ModalJoinRoom';
 import 'react-toastify/dist/ReactToastify.css';
 
-const socket = io();
+const socket = io('http://localhost:4000');
 
 function App() {
   const options = {
@@ -74,6 +74,7 @@ function App() {
   const handleDisconnect = useCallback((player) => {
     if (player !== playerId) {
       notify(`Player ${player} Disconnect`);
+      setPlayerTwo(false);
     }
   }, [playerId]);
 
