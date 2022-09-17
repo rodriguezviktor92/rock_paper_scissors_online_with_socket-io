@@ -47,14 +47,13 @@ const getUser = (userId) => {
 
 io.on('connection', (socket) => {
   //createUser(socket.id);
-  console.log(socket.id);
 
-  socket.on('message', (message) => {
-    socket.broadcast.emit('message', {
-      body: message,
-      from: getUser(socket.id),
-    });
-  });
+  // socket.on('message', (message) => {
+  //   socket.broadcast.emit('message', {
+  //     body: message,
+  //     from: getUser(socket.id),
+  //   });
+  // });
 
   socket.on('create-room', (roomId) => {
     if (rooms[roomId]) {
@@ -161,6 +160,6 @@ io.on('connection', (socket) => {
   });
 });
 
-//app.use(express.static(join(__dirname, '../client/dist')));
+app.use(express.static(join(__dirname, '../client/dist')));
 server.listen(PORT);
 console.log('Server started on port ', PORT);

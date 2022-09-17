@@ -17,11 +17,7 @@ import ModalCreateRoom from './components/ModalCreateRoom';
 import ModaljoinRoom from './components/ModalJoinRoom';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Local
-const socket = io('http://localhost:4000');
-
-// Remote
-// const socket = io();
+const socket = io();
 
 function App() {
   const options = {
