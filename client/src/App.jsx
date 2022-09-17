@@ -1,12 +1,11 @@
 import {
   React,
   useState,
-  useEffect,
-  useCallback,
 } from 'react';
-import io from 'socket.io-client';
+
 import './index.css';
 import { ToastContainer, toast } from 'react-toastify';
+import io from 'socket.io-client';
 import iconPaper from './assets/icon-paper.svg';
 import iconRock from './assets/icon-rock.svg';
 import iconScissors from './assets/icon-scissors.svg';
@@ -16,6 +15,9 @@ import ModalRules from './components/ModalRules';
 import ModalCreateRoom from './components/ModalCreateRoom';
 import ModaljoinRoom from './components/ModalJoinRoom';
 import 'react-toastify/dist/ReactToastify.css';
+import useGameResult from './hooks/useGameResult';
+import useGameRooms from './hooks/useGameRooms';
+import useGameUsers from './hooks/useGameUsers';
 
 const socket = io('http://localhost:4000');
 
@@ -32,86 +34,28 @@ function App() {
     },
   };
 
-  const [room, setRoom] = useState('');
-  const [roomCreated, setRoomCreated] = useState(false);
-  const [roomJoin, setRoomJoin] = useState(false);
-  const [playerTwo, setPlayerTwo] = useState(false);
-  const [playerId, setPlayerId] = useState();
   const [youChoice, setYouChoice] = useState();
-  const [playerTwoChoice, setPlayerTwoChoice] = useState();
-  const [result, setResult] = useState();
-  const [scores, setScore] = useState({ you: 0, enemy: 0 });
-
+  const [playerId, setPlayerId] = useState();
   const notify = (message, type = 'success') => toast[type](message);
 
-  const handleGameResult = useCallback((gameResult) => {
-    const playerTwoResult = playerId === 1 ? gameResult.player2 : gameResult.player1;
+  const {
+    scores,
+    result,
+    playerTwoChoice,
+    setResult,
+    setPlayerTwoChoice,
+  } = useGameResult(socket, playerId);
 
-    setPlayerTwoChoice(playerTwoResult);
+  const {
+    room,
+    roomCreated,
+    roomJoin,
+    setRoom,
+  } = useGameRooms(socket, notify, setPlayerId);
 
-    if (gameResult.win === 0) {
-      setResult('Draw');
-      return;
-    }
-
-    if (playerId !== gameResult.win) {
-      setResult('YOU LOSE');
-      setScore({ ...scores, enemy: scores.enemy + 1 });
-      return;
-    }
-
-    setResult('YOU WIN');
-    setScore({ ...scores, you: scores.you + 1 });
-  }, [playerId, scores]);
-
-  useEffect(() => {
-    // Evaluar para usar 1 solo canal
-    socket.on('draw', handleGameResult);
-    socket.on('player-1-wins', handleGameResult);
-    socket.on('player-2-wins', handleGameResult);
-  }, [handleGameResult]);
-
-  const handleDisconnect = useCallback((player) => {
-    if (player !== playerId) {
-      notify(`Player ${player} Disconnect`);
-      setPlayerTwo(false);
-    }
-  }, [playerId]);
-
-  useEffect(() => {
-    const handleRoomCreated = () => {
-      setRoomCreated(true);
-      setRoomJoin(true);
-      setPlayerId(1);
-      notify(`Room ${room} created and joined`);
-    };
-
-    const handleRoomJoin = () => {
-      setRoomJoin(true);
-    };
-
-    socket.on('room-created', handleRoomCreated);
-    socket.on('room-joined', handleRoomJoin);
-
-    const handlePlayerTwoConnected = () => {
-      setPlayerTwo(true);
-      notify('Player two connected');
-    };
-
-    socket.on('player-2-connected', handlePlayerTwoConnected);
-
-    const handleErrorConnected = (error) => {
-      notify(error, 'error');
-    };
-
-    socket.on('display-error', handleErrorConnected);
-
-    socket.on('disconnected', handleDisconnect);
-
-    return () => {
-      socket.off();
-    };
-  }, []);
+  const {
+    playerTwo,
+  } = useGameUsers(socket, notify, playerId);
 
   const handleSelecOption = (choice) => {
     if (!roomJoin) {
