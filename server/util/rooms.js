@@ -8,6 +8,10 @@ export const joinRoom = (roomId, player2Id) => {
   rooms[roomId][1] = player2Id;
 };
 
+export const checkRoomSpace = (roomId) => {
+  return rooms[roomId][1] !== '';
+}
+
 export const exitRoom = (roomId, player) => {
   if (player === 1) {
     rooms[roomId][0] = '';

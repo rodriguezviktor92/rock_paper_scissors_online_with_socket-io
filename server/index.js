@@ -11,7 +11,7 @@ import {
   makeMove,
   choices,
 } from './util/users.js';
-import { rooms, createRoom, joinRoom, exitRoom } from './util/rooms.js';
+import { rooms, createRoom, joinRoom, exitRoom, checkRoomSpace } from './util/rooms.js';
 import { moves } from './util/users.js';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -72,8 +72,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('join-room', (roomId) => {
-    if (!rooms[roomId]) {
-      const error = 'This room doent exists';
+    if (!rooms[roomId] || checkRoomSpace(roomId)) {
+      const error = 'This room does not exists or is full';
       socket.emit('display-error', error);
     } else {
       userConnected(socket.id);
