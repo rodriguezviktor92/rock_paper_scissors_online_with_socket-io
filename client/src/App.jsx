@@ -115,12 +115,12 @@ function App() {
 
   const handleSelecOption = (choice) => {
     if (!roomJoin) {
-      notify('Debes unirte o crear una sala', 'error');
+      notify('You must join or create a new room', 'error');
       return;
     }
 
     if (!playerTwo) {
-      notify('Aun el segundo jugar no se ha unido a la sala', 'error');
+      notify('The second player has not joined the room.', 'error');
       return;
     }
     setYouChoice(choice);
