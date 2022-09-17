@@ -137,30 +137,25 @@ function App() {
 
   return (
     <section id="main" className="w-screen h-screen bg-gradient-to-r from-background to-background2 p-10 grid justify-center items-center grid-cols-options">
-      <ToastContainer />
       <Scoreboard scores={scores} />
-      <section id="information">
+      <section id="information" className="text-white">
         {roomJoin ? (
           <p>
-            You joined the
-            <b>{room}</b>
-            room select your option
+            You joined the room:
+            <b className="text-lime-400">{` ${room}`}</b>
           </p>
         ) : (
           <p>You are not join to any room</p>
         )}
         {roomJoin && playerTwo ? (
-          <p>
-            Player Two connected:
-            <b>Select you Option</b>
-          </p>
+          <p>Select you Option</p>
         ) : (
           <p>Player Two not yet connected</p>
         )}
       </section>
 
       {youChoice ? (
-        <section id="choice" className="relative w-[313px] md:w-[520px] h-[278px] flex justify-center items-center justify-self-center text-white font-barlow font-semibold text-xl tracking-wider">
+        <section id="choice" className="relative w-[313px] md:w-[520px] h-[278px] grid grid-cols-twoColums md:grid-cols-threeColums justify-center items-center justify-self-center text-white font-barlow font-semibold text-xl tracking-wider">
           <div className="text-center">
             <p className="justify-self-center pb-12">YOU PICKED</p>
             <Option
@@ -170,7 +165,7 @@ function App() {
             />
           </div>
           {result && (
-            <div className={`${youChoice && playerTwoChoice ? 'grid' : 'none'} w-full top-0 justify-center`}>
+            <div className={`${youChoice && playerTwoChoice ? 'grid' : 'none'} md:row-auto md:col-span-1 row-start-2 col-span-2 w-full top-0 justify-center`}>
               <p className="justify-self-center pb-12">{result}</p>
               <button type="button" className="border-2 font-barlow rounded-md w-28" onClick={handleResetGame}>PLAY AGAIN</button>
             </div>
@@ -205,7 +200,8 @@ function App() {
           }
         </section>
       )}
-      <section className="flex justify-end self-end text-white">
+      <ToastContainer />
+      <section className="flex gap-2 justify-end self-end text-white">
         <ModaljoinRoom
           socket={socket}
           room={room}

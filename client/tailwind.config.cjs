@@ -22,6 +22,8 @@ module.exports = {
       gridTemplateColumns: {
         // Complex site-specific column configuration
         options: 'minmax(313px, 626px)',
+        twoColums: 'repeat(2, 1fr)',
+        threeColums: 'repeat(3, 1fr)',
       },
       backgroundImage: {
         'triangle': "url('/src/assets/bg-triangle.svg')",
