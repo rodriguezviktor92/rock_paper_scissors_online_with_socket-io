@@ -99,7 +99,7 @@ function App() {
       </section>
 
       {youChoice ? (
-        <section id="choice" className="relative w-[313px] md:w-[520px] h-[278px] grid grid-cols-twoColums md:grid-cols-threeColums justify-center items-center justify-self-center text-white font-barlow font-semibold text-xl tracking-wider">
+        <section id="choice" className={`relative w-[313px] md:w-[520px] h-[278px] grid grid-cols-twoColums ${result ? 'md:grid-cols-threeColums' : 'md:grid-cols-twoColums'} gap-x-2.5 justify-center items-center justify-self-center text-white font-barlow font-semibold text-xl tracking-wider`}>
           <div className="text-center">
             <p className="justify-self-center pb-12">YOU PICKED</p>
             <Option

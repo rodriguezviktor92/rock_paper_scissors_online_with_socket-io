@@ -31,7 +31,7 @@ function Option({
       onClick={() => handleSelecOption && handleSelecOption(type)}
     >
       <span
-        className={`w-[100px] h-[100px] md:w-[150px] md:h-[150px] ${bigSize && 'sm:w-[200px] sm:h-[200px]'} ${type === 'empty' ? 'bg-empty' : 'bg-white'} rounded-full flex 
+        className={`w-[100px] h-[100px] md:w-[150px] md:h-[150px] ${bigSize && 'sm:w-[150px] sm:h-[150px]'} ${type === 'empty' ? 'bg-empty' : 'bg-white'} rounded-full flex 
 justify-center items-center ${type !== 'empty' && 'shadow-shadow-in'}`}
       >
         {image && (<img src={image} alt={type} />) }
