@@ -19,7 +19,7 @@ import useGameResult from './hooks/useGameResult';
 import useGameRooms from './hooks/useGameRooms';
 import useGameUsers from './hooks/useGameUsers';
 
-const socket = io('http://localhost:4000');
+const socket = io();
 
 function App() {
   const options = {
